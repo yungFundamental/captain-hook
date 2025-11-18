@@ -4,11 +4,8 @@
 A Linux Kernel module that can hook kernel functions with a custom trampoline hook mechanism.
 > Note that the custom hook was developed in my [LKMs repository](https://github.com/yungFundamental/LKMs), but this is where I decided to create one main LKM.
 
-
-
-
 ## Dependencies
-Linux Kernel - version 5.18
+Linux Kernel - version 5.18 or lower.
 
 ## Trampoline Hooks
 In this project, I learned how to implement hooks.
