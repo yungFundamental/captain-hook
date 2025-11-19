@@ -31,14 +31,14 @@ static int captain_init(void)
         printk(KERN_ALERT "Failed installing hook\n");
         return err;
     }
-    printk(KERN_INFO "Installed iterate_dir hook\n");
+    printk(KERN_INFO "Installed captain hook\n");
 	return 0;
 }
 
 static void captain_exit(void)
 {
     tramp_hook_uninstall(&tcp_v4_rcv_hook);
-	printk(KERN_INFO "Removed iterate_dir hook\n");
+	printk(KERN_INFO "Removed captain hook\n");
 }
 
 module_init(captain_init);
