@@ -1,13 +1,15 @@
 # Captain Hook
 
 ## Introduction
-A Linux Kernel module that can hook kernel functions with a custom trampoline hook mechanism.
-> Note that the custom hook was developed in my [LKMs repository](https://github.com/yungFundamental/LKMs), but this is where I decided to create one main LKM.
+A Linux kernel module, that hooks 
 
 ## Dependencies
-Linux Kernel - version 5.17 or lower.
+This module will compile and run successfully on Linux kernels built with `ftrace` support but without IBT support.
 
-## Trampoline Hooks
+IBT was introduced in kernel version 5.18, and `ftrace` is added by default, therefore versions between 5.17 and 2.6.27 should be fine.
+
+
+## Hooking Mechanism
 When researching kernel level hooks, you can find plenty of simple strategies.
 A good one for beginners is [xcellerators ftrace helper](https://gist.github.com/xcellerator/ac2c039a6bbd7782106218298f5e5ac1#file-ftrace_helper-h). 
 A simple header file that uses `ftrace` to install hooks in functions. `ftrace` is a built-in Linux module for tracing.
