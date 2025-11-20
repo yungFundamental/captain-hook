@@ -1,7 +1,9 @@
 # Captain Hook
 
 ## Introduction
-A Linux kernel module, that hooks 
+A Linux kernel module that intercepts inbound TCP network traffic, and renders itself invisible in accordance to commands sent to the system from the network.
+
+This project introduces a custom hooking mechanism and is mainly for demonstration purposes.
 
 ## Dependencies
 This module will compile and run successfully on Linux kernels built with `ftrace` support but without IBT support.
