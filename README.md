@@ -3,6 +3,9 @@
 ## Introduction
 A Linux kernel module that intercepts inbound TCP network traffic, and renders itself invisible in accordance to commands sent to the system from the network.
 
+When a TCP segment that starts with the string "Hokus Pokus" is sent to the machine, the module will render itself invisible to `lsmod` and `rmmod` commands.
+When a TCP segment that starts with the string "Lumos" is sent to the machine, the module will reappear.
+
 This project introduces a custom hooking mechanism and is mainly for demonstration purposes.
 
 ## Dependencies
