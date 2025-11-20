@@ -2,7 +2,7 @@
 obj-m := captain.o
 
 # Objects that form the module (main + trampoline)
-captain-objs := trampoline/trampoline.o main.o
+captain-objs := invisibility/invisibility.o trampoline/trampoline.o main.o
 
 ccflags-y += -I$(src)
 
