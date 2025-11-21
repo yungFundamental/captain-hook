@@ -8,6 +8,18 @@ When a TCP segment that starts with the string "Lumos" is sent to the machine, t
 
 This project introduces a custom hooking mechanism and is mainly for demonstration purposes.
 
+## Demonstration
+In the following demo, we insert the captain hook module and view the results.
+
+![Demo](assets/demo/demo.gif)
+
+First, we show that the captain module is visible to the system by running `lsmod | grep captain`.
+
+Then, we start listening for TCP traffic and get the invisibility command "Hokus Pokus". After receiving the command, we check and see that the captain module has been rendered invisible.
+
+After that, we listen for TCP traffic again and get the visibility command "Lumos". After receiving the command, we check and see that the module has reappeared.
+
+
 ## Dependencies
 This module will compile and run successfully on Linux kernels built with `ftrace` support but without IBT support.
 
