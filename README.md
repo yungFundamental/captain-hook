@@ -11,7 +11,7 @@ This project introduces a custom hooking mechanism and is mainly for demonstrati
 ## Demonstration
 In the following demo, we insert the captain hook module and view the results.
 
-![Demo](assets/demo/demo2.gif)
+![Demo](assets/demo/demo.gif)
 
 First, we show that the captain module is visible to the system by running `lsmod | grep captain`.
 
